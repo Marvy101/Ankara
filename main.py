@@ -24,7 +24,7 @@ st.markdown("""
 
 # File uploader
 uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
-voice_option = st.selectbox("Choose a voice", ["fable", "alloy", "echo", "fable", "onyx", "nova",  "shimmer"])  # Add more voice options as needed
+voice_option = st.selectbox("Choose a voice", ["alloy", "echo", "fable", "onyx", "nova",  "shimmer"])  # Add more voice options as needed
 
 @st.cache_data
 def process_video(uploaded_file):
