@@ -87,15 +87,21 @@ if uploaded_file is not None and st.button('Generate Ankara') and inputPrompt:
                 ],
             },
         ]
-        params = {
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAIKEY}"
+                    }
+
+        payload = {
             "model": "gpt-4-vision-preview",
             "messages": PROMPT_MESSAGES,
-            "api_key": OPENAIKEY,
-            "headers": {"Openai-Version": "2020-11-07"},
-            "max_tokens": 500,  # if you have one
-        }
+             "max_tokens": 500
+                }
 
-        result = openai.ChatCompletion.create(**params)
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+        result = response.json()
+        
         script_content = result.choices[0].message.content
         st.write("Generated Script: "+script_content)
 
