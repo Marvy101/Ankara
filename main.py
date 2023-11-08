@@ -67,7 +67,7 @@ def process_video(uploaded_file):
         # Your existing code to process the video...
         return videoPath, base64Frames, video_length
 
-prePrompt = "OUTPUT ONLY THE SCRIPT. REDUCE OR INCREASE SCRIPT LENGTH BASED ON THE LENGTH OF THE VIDEO AND ESTIMATED NARRATION TIME OF SCRIPT. "
+prePrompt = "OUTPUT ONLY THE SCRIPT. REDUCE OR INCREASE SCRIPT LENGTH BASED ON THE LENGTH OF THE VIDEO AND ESTIMATED NARRATION TIME OF SCRIPT. Use caps and exclamation marks where needed to communicate excitement. "
 inputPrompt = st.text_input("Enter the narration prompt")
 
 if uploaded_file is not None and st.button('Generate Ankara') and inputPrompt:
