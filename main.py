@@ -102,7 +102,7 @@ if uploaded_file is not None and st.button('Generate Ankara') and inputPrompt:
 
         result = response.json()
         
-        script_content = result.choices[0].message.content
+        script_content = result
         st.write("Generated Script: "+script_content)
 
         # Get the number of tokens used for billing purposes
