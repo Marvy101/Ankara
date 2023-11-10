@@ -8,9 +8,21 @@ from io import BytesIO
 import tempfile
 from tempfile import NamedTemporaryFile
 import os
+from pyht import Client
+from dotenv import load_dotenv
+from pyht.client import TTSOptions
 
+
+
+# Future Things
+# Copy only text
+# Better AI Voice? More realistic or Voice of Celebrities
+# Real time. Idea here is concatenate response so next prompt will start from ending of previous prompt
+# Add voice (super fast voice would be awesome for commentary): https://www.ycombinator.com/launches/Jg8-playht-2-0-turbo-the-fastest-generative-ai-text-to-speech-api-yc-deal 
 
 OPENAIKEY = st.secrets["general"]["OPENAI_KEY"]
+HT_USER_ID = st.secrets["general"]["HT_USER_ID"]
+HT_KEY = st.secrets["general"]["HT_KEY"]
 
 # Initialize Streamlit app
 st.set_page_config(page_title='Ankara Narration AI')
@@ -110,21 +122,19 @@ if uploaded_file is not None and st.button('Generate Ankara') and inputPrompt:
         num_tokens = result['usage']['total_tokens']
         print(f"The output contains {num_tokens} tokens.")
 
-        # Generate the audio using OpenAI's text-to-speech
-        response = requests.post(
-            "https://api.openai.com/v1/audio/speech",
-            headers={
-                "Authorization": f"Bearer {OPENAIKEY}",
-            },
-            json={
-                "model": "tts-1",
-                "input": script_content,
-                "voice": voice_option,
-            },
-        )
+        # Generate the audio using playht
+        load_dotenv()
 
+        client = Client(
+            user_id=HT_USER_ID,
+            api_key=HT_KEY,
+                    )
+        
         audio = b""
-        for chunk in response.iter_content(chunk_size=1024 * 1024):
+        options = TTSOptions(voice="s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json")
+        for chunk in client.tts(script_content, options):
+            # do something with the audio chunk
+            print(type(chunk))
             audio += chunk
 
         # Create a temporary file to store the audio data
